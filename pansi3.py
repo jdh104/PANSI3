@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 PRGM_AUTHOR = "Jonah Haney"
-PRGM_VERSION = "2018.1.7"
+PRGM_VERSION = "2018.1.8"
 DEBUG = False#True 
 
 import sys
