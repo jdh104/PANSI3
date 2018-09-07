@@ -4,7 +4,6 @@ import sys
 
 __author__ = "Jonah Haney"
 __version__ = "2018.1.7"
-DEBUG = False#True 
 
 ESC = "\033"
 STX = "\02"
@@ -47,8 +46,8 @@ FCLR = "38"     # Set foreground color
 BCLR = "48"     # Set background color
 
 class pansi:
-	def __init__(self):
-		pass
+	def __init__(self, DEBUG=False):
+		self.DEBUG = DEBUG
 
 	def fstr(self, obj):
 		"""Allow objects to define formatted strings as self-representation.
@@ -183,7 +182,7 @@ class pansi:
 
 	def printANSI(self, C1, *args, ender="", seper=";", file=sys.stdout):
 		"""Construct and print an ANSI Escape Code."""
-		if DEBUG:
+		if self.DEBUG:
 			print("\n", C1, end="", sep="", file=sys.stderr)
 			print(*args, end=ender, sep=seper, file=sys.stderr)
 		else:
@@ -368,6 +367,6 @@ class pansi:
 		#self.save_cursor_position().move_cursor_to(x, y, file=file)
 		#print(*args, end=end, sep=sep, file=file)
 		#return self.restore_cursor_position()
-		if DEBUG:
+		if self.DEBUG:		
 			print("{SCP}{CUP," + str(x) + "," + str(y) + "}" + sep.join(args) + "{RCP}")
 		return self.printf("{SCP}{CUP," + str(x) + "," + str(y) + "}" + sep.join(args) + "{RCP}", end=end, file=file)
