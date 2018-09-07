@@ -368,5 +368,6 @@ class pansi:
 		#self.save_cursor_position().move_cursor_to(x, y, file=file)
 		#print(*args, end=end, sep=sep, file=file)
 		#return self.restore_cursor_position()
-		print("{SCP}{CUP," + str(x) + "," + str(y) + "}" + sep.join(args) + "{RCP}")
+		if DEBUG:
+			print("{SCP}{CUP," + str(x) + "," + str(y) + "}" + sep.join(args) + "{RCP}")
 		return self.printf("{SCP}{CUP," + str(x) + "," + str(y) + "}" + sep.join(args) + "{RCP}", end=end, file=file)
