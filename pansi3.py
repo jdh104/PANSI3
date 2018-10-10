@@ -3,7 +3,7 @@
 import sys
 
 __author__ = "Jonah Haney"
-__version__ = "2018.1.7"
+__version__ = "2018.10.10"
 
 ESC = "\033"
 STX = "\02"
@@ -59,6 +59,93 @@ class pansi:
 		except:
 			return str(obj)
 				
+	def help(self):
+		print("""
+Function List:
+	
+	reset()
+	reset_style()
+	
+	clear_to_right()
+	clear_to_left()
+	clear_line()
+	clear_to_top()
+	clear_to_bottom()
+	clear()
+	
+	scroll_up(n=1)
+	scroll_down(n=1)
+	scroll(signed_scroll)
+
+	move_cursor_to(new_cursor_x, new_cursor_y)
+	move_cursor_up(n=1)
+	move_cursor_down(n=1)
+	move_cursor_left(n=1)
+	move_cursor_right(n=1)
+
+	new_line(n=1)
+	prev_line(n=1)
+
+	set_foreground(color_code)
+	set_foreground(R, G, B)
+	set_background(color_code)
+	set_background(R, G, B)
+	invert_colors()
+
+	set_bold()
+	set_bold(False)
+	set_underline()
+	set_underline(False)
+	set_blink()
+	set_blink(False)
+	
+	set_font(font_code) # 1-9
+	reset_font()
+
+	save_cursor_position()
+	restore_cursor_position()
+
+	output(x, y, output_string)
+
+Tag List (for printf):
+
+	{RIS} {RESET}:   ANSI Reset
+
+	{CUP, x, y}:     Cursor Position
+	{CUU} {CUU, n}:  Cursor Up
+	{CUD} {CUD, n}:  Cursor Down
+	{CUL} {CUL, n}:  Cursor Left
+	{CUR} {CUR, n}:  Cursor Right
+
+	{CNL} {CNL, n}:  Cursor New Line
+	{CPL} {CPL, n}:  Cursor Prev Line
+
+	{CLR_RIGHT}:     Clear to Right
+	{CLR_LEFT}:      Clear to Left
+	{CLR_LINE}:      Clear Line
+	{CLR_TOP}:       Clear to Top
+	{CLR_BOTTOM}:    Clear to Bottom
+	{CLR} {CLS} {CLR_SCREEN}
+
+	{SU} {SU, n} {SCRL_UP} {SCRL_UP, n}
+	{SD} {SD, n} {SCRL_DOWN} {SCRL_DOWN, n}
+	{SCRL, n} {SCROLL, n}
+
+	{SCP}:  Save Cursor Position
+	{RCP}:  Restore Cursor Position
+
+	{RSS} {RSET_STYLE}
+	{BOLD}
+	{BOLD_OFF}
+	{UNDL}
+	{UNDL_OFF}
+	{BLNK}
+	{BLNK_OFF}
+	{FONT, font_code}
+	{DFNT} {RSET_FONT}
+
+	{FCLR, color_code} {FCLR, r, g, b}:  Foreground
+	{BCLR, color_code} {BCLR, r, g, b}:  Background\n""")
 
 	def printf(self, *args, sep=" ", end="\n", file=sys.stdout, flush=False):
 		for arg in args:
@@ -300,8 +387,6 @@ class pansi:
 
 	def set_foreground(self, *args, file=sys.stdout):
 		"""Set the text color. Use color code or R, G, B as arguments"""
-		#for a in args:
-		#	a = int(a)
 		if len(args) == 3:
 			return self.printSGR(FCLR, 2, *args, file=file)
 		elif len(args) == 1:
@@ -313,7 +398,7 @@ class pansi:
 		if len(args) == 3:
 			return self.printSGR(BCLR, 2, *args, file=file)
 		elif len(args) == 1:
-			return self.printSGR(BCLR, 5, arg[0], file=file)
+			return self.printSGR(BCLR, 5, args[0], file=file)
 		return self
 
 	def invert_colors(self, file=sys.stdout):
